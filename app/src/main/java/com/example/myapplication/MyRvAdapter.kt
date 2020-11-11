@@ -27,5 +27,8 @@ class MyRvAdapter(val data: ArrayList<String>, val context: Context) : RecyclerV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.rv.text = data[position]
+        holder.itemView.setOnClickListener {
+
+        }
     }
 }
