@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextPaint
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,59 +23,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val dataList = ArrayList<String>()
         dataList.addAll(listOf("hh", "asd", "wter", "sddlfkja", "zkjs", "ns", "ha", "hh", "asd", "wter", "sddlfkja", "zkjs", "ns", "sfda", "dfgh", "wxxcvb", "yuioa", "ptswe", "oer", "zsa", "sdf", "sdfg", "csd", "fghj", "pyt", "iree"))
-        dataList.sortWith(kotlin.Comparator { o1, o2 -> if (o1[0] < o2[0]) -1 else 1 })
+        dataList.sortWith(kotlin.Comparator { o1, o2 -> if (o1[0] < o2[0]) -1 else 1 }) // 正数就要交换位置，负数和0不交换
 
         val adapter = MyRvAdapter(dataList, this)
         my_rv.adapter = adapter
         my_rv.layoutManager = LinearLayoutManager(this)
-        my_rv.addItemDecoration(object : RecyclerView.ItemDecoration(){
-            override fun getItemOffsets(outRect: Rect, itemPosition: Int, parent: RecyclerView) {
-                if(isFirst(itemPosition)){
-                    outRect.set(0, 100, 0, 0)
-                }else{
-                    outRect.set(0, 0, 0, 0)
-                }
+        my_rv.addItemDecoration(FirstItemDecoration(my_rv, {
+            return@FirstItemDecoration if (it == 0){
+                true
+            }else{
+                dataList[it - 1][0] != dataList[it][0]
             }
+        }, {
+            return@FirstItemDecoration dataList[it][0].toUpperCase().toString()
+        }))
 
-            @SuppressLint("ResourceType")
-            override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                val paint = Paint()
-                paint.color = Color.DKGRAY
-                val textPaint = TextPaint()
-                textPaint.color = Color.WHITE
-                textPaint.textSize = 50f
-
-                var height = 100
-                if(isFirst(parent.getChildAdapterPosition(parent.getChildAt(1)))){
-                    height = min(100, parent.getChildAt(1).top - 100)
-                    Log.d("sandyzhang = ", min(100, parent.getChildAt(1).top - 100).toString())
-                }
-                c.drawRect(Rect(0, height - 100, parent.width, height), paint)
-                c.drawText(getFirstChar(parent.getChildAdapterPosition(parent.getChildAt(0))).toString(), 20F, height - 30F, textPaint)
-
-                paint.color = Color.GRAY
-                for (i in 1 until  parent.childCount){ // 返回显示在屏幕上的数量
-                    // getChildAt 返回显示出来的条目中，第i个条目的view实例
-                    // getChildAdapterPosition 返回第i个条目的实例在原数据集的真实位置
-                    if(isFirst(parent.getChildAdapterPosition(parent.getChildAt(i)))){
-                        c.drawRect(Rect(0, parent.getChildAt(i).top - 100, parent.width, parent.getChildAt(i).top), paint)
-                        c.drawText(getFirstChar(parent.getChildAdapterPosition(parent.getChildAt(i))).toString(), 20F, parent.getChildAt(i).top - 30F, textPaint)
-                    }
-
-                    Log.d("sandyzhang", parent.getChildLayoutPosition(parent.getChildAt(0)).toString())
-                }
-            }
-            fun isFirst(pos: Int): Boolean{
-                return if (pos == 0){
-                    true
-                }else{
-                    dataList[pos - 1][0] != dataList[pos][0]
-                }
-            }
-            fun getFirstChar(pos: Int): Char{
-                return dataList[pos][0]
-            }
-        })
 
 
     }
