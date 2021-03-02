@@ -29,15 +29,18 @@ class MainActivity : AppCompatActivity() {
         my_rv.adapter = adapter
         my_rv.layoutManager = LinearLayoutManager(this)
         my_rv.addItemDecoration(FirstItemDecoration(my_rv, {
-            return@FirstItemDecoration if (it == 0){
+            return@FirstItemDecoration if (it == 0) {
                 true
-            }else{
+            } else {
                 dataList[it - 1][0] != dataList[it][0]
             }
         }, {
             return@FirstItemDecoration dataList[it][0].toUpperCase().toString()
         }))
 
+        drag_head_view.onRefreshAction = {
+            drag_head_view.finishRefresh()
+        }
 
 
     }
