@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_rv"
+    <com.example.myapplication.DragHeadView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:head_view="@layout/layout_head_view"
+        app:before_refresh_text="下拉刷新"
+        app:can_refresh_text="释放立即刷新"
+        app:refreshing_text="玩命加载中..."
+        app:refreshed_text="加载完成！"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.example.myapplication.DragHeadView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DragHeadView">
+        <attr name="head_view" format="reference"/>
+        <attr name="refreshed_text" format="string"/>
+        <attr name="refreshing_text" format="string"/>
+        <attr name="before_refresh_text" format="string"/>
+        <attr name="can_refresh_text" format="string"/>
+    </declare-styleable>
+    
+</resources>
