@@ -7,6 +7,7 @@
         <attr name="before_refresh_text" format="string"/>
         <attr name="can_refresh_text" format="string"/>
         <attr name="refreshed_ic" format="reference" />
+        <attr name="before_ic" format="reference" />
     </declare-styleable>
     
 </resources>

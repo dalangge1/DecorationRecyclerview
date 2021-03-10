@@ -5,7 +5,6 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -44,6 +43,7 @@ class DragHeadView @JvmOverloads constructor(
         refreshingText = typedArray.getString(R.styleable.DragHeadView_refreshing_text) ?: "正在刷新..."
         refreshedText = typedArray.getString(R.styleable.DragHeadView_refreshed_text) ?: "刷新完成"
         refreshedIc = typedArray.getDrawable(R.styleable.DragHeadView_refreshed_ic)
+        beforeIc = typedArray.getDrawable(R.styleable.DragHeadView_before_ic)
 
         typedArray.recycle()
 
@@ -52,8 +52,8 @@ class DragHeadView @JvmOverloads constructor(
         addView(headView, 0)
         headView.post {
             headViewHeight = headView.height
-            Log.d("sandyzhang", headViewHeight.toString())
             transformHeadView(headViewHeight)
+            requestLayout()
         }
 
         head_view_progress.visibility = View.INVISIBLE
@@ -63,17 +63,20 @@ class DragHeadView @JvmOverloads constructor(
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
-        head_view_arrow.post {
-            beforeIc = head_view_arrow.drawable
-        }
+
+
+
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         try {
             rv = getChildAt(1) as RecyclerView?
+
         } catch (e: Exception) {
             e.printStackTrace()
             throw IllegalStateException("the first view must be recyclerView!")
         }
-
-
     }
 
 
@@ -124,7 +127,6 @@ class DragHeadView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 downY = event.y
@@ -182,7 +184,7 @@ class DragHeadView @JvmOverloads constructor(
 
     }
 
-    private fun refresh() {
+    fun refresh() {
         head_view_arrow.visibility = View.INVISIBLE
         head_view_progress.visibility = View.VISIBLE
 
